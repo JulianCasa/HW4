@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Julian Casalez / Section 001 ***
  *
  * This hashMap object represents an over simplification of Java's implementation of HashMap within
  * Java's Collection Framework Library. You are to complete the following methods:
@@ -73,9 +73,9 @@
  ****************************************/
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 
 /**
@@ -231,6 +231,39 @@ class myHashMap<K,V> {
          * return value is returned the invoking function based on the remove outcome.
          */
 
+         //Creates a V type variable to store the value of the key
+        V currentV = this.get(key);
+
+        //Checks if the current value is not null
+        if (currentV != null){
+
+            //Creates an integer variable to store the index of the key
+            int index = getBucketIndex(key);
+
+            //It then creates nodes to traverse the bucket
+            HashNode<K, V> head = bucket.get(index);
+            HashNode<K, V> prev = null;
+
+            //While the head is not null, it will traverse the bucket
+            //and check if the key is equal to the key that is being searched
+            while (head != null) {
+                if (head.key.equals(key)) {
+                    break;
+                }
+                prev = head;
+                head = head.next;
+            }
+
+            //To remove the target key from the bucket, checks if th prev node is not null
+            //if it is not null, it will set the next node to the head node
+            if (prev != null) {
+                prev.next = head.next;
+            } else {
+                bucket.set(index, head.next);
+            }
+            size--;
+            return head.value;
+        }
         return null;
     }
 
@@ -406,7 +439,24 @@ class myHashMap<K,V> {
          * replace (see method's prologue above).
          */
 
-        return val;
+        //Creates a V type variable to store the value of the key
+        V ogVal = this.get(key);
+
+        //It then creates an integer variable to store the index of the key and uses it to traverse the bucket
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
+
+        //While the head is not null, it will traverse the bucket and check if the key is equal to the key that is being searched
+        while (head != null){
+            //When it finds the key, it will replace the value of the key with the new value
+            //and return the old value
+            if (head.key.equals(key)){
+                head.value = val;
+                return ogVal;
+            }
+            head = head.next;
+        }
+        return ogVal;
     }
 
     
@@ -433,6 +483,20 @@ class myHashMap<K,V> {
          * This method should apply the precondition (aka, the Key already exists with the
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
+
+ 
+
+        //Uses an int and HashNode to get the head value of the bucket
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
+
+        //If the head value is equal to the old value, it will replace the key with the new value by 
+        //calling the replace method
+        if (head.value.equals(oldVal)){
+            replace(key, newVal);
+            return true;
+        }
+
 
         return false;
     }

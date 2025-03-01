@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Julian Casalez / Section 001 ***
  *
  * This HashingProblems object contains three methods / problems that you must
  * complete utilize the HashMap object within the Java's Collection Framework Library.
@@ -10,8 +10,8 @@
  *  - twoSums
  */
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +41,31 @@ class HashingProblems {
          * returning 0.0/0.0 IS correct (which would return a non-number).
          */
 
-         return 0.0 / 0.0;
+         double finalAvg;
+
+          // Initialize the sum and count variables
+          double count = 0;
+          double sum = 0;
+
+          // Iterate over the array and check if the key is present in the map
+          //If it is increase the count and add the value to the sum
+          for (int i = 0; i < array.length; i++) {
+            if (map.containsKey(array[i])){
+              sum = sum + map.get(array[i]);
+              count++;
+            }
+
+          }
+
+          // Calculate the final average only if the count is greater than 0
+          if (count > 0){
+            finalAvg = sum / count;
+          } 
+          else{
+            finalAvg = 0.0/0.0;
+          }
+
+         return finalAvg;
   }
 
 
@@ -61,6 +85,16 @@ class HashingProblems {
        *
        * Hint: Consider iterating over the HashMap using the keySet method.
        */
+
+       // Get the keySet from the map
+       Set<Integer> keySet = map.keySet();
+
+       // Iterate over the keySet and add the values to the result ArrayList
+         for (Integer key : keySet) {
+              if (key % 2 != 0) {
+                result.add(map.get(key));
+              }
+         }
 
 
       return result;
@@ -109,8 +143,25 @@ class HashingProblems {
       /*
        * ADD YOUR CODE HERE
        */
+      int finalTwoSums = 0;
+      HashSet<Integer> sumSet = new HashSet<>();
 
-      return -1;
+      for (int i = 0; i < numbers.length; i++) {
+        sumSet.add(numbers[i]);
+      }
+
+      if (sumSet.isEmpty() == true){
+        finalTwoSums = -1;
+      }
+      else{
+        for (int i = 0; i < numbers.length; i++) {
+          if (sumSet.contains(numbers[i] - k)){
+            finalTwoSums++;
+          }
+        }
+      }
+
+      return finalTwoSums;
   }
 
 } /* end class HashingProblems */
